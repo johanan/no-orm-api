@@ -1,0 +1,22 @@
+services:
+  database:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: todo
+      POSTGRES_USER: todo-user
+      POSTGRES_PASSWORD: password123
+    ports:
+      - "5432:5432"
+    profiles:
+      - dev
+
+  database_test:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: todo_test
+      POSTGRES_USER: todo-user
+      POSTGRES_PASSWORD: password123
+    ports:
+      - "5432:5432"
+    profiles:
+      - test

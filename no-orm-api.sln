@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{21AD1D5F-296A-47E5-B253-C476D46A79CA}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "todo-api", "src\todo-api\todo-api.fsproj", "{B7430CA7-AC85-4C18-8787-41A4B5E69DF0}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "todo-tests", "src\todo-tests\todo-tests.fsproj", "{5FDAA538-230B-46FB-B177-617189149BB3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B7430CA7-AC85-4C18-8787-41A4B5E69DF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7430CA7-AC85-4C18-8787-41A4B5E69DF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7430CA7-AC85-4C18-8787-41A4B5E69DF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7430CA7-AC85-4C18-8787-41A4B5E69DF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FDAA538-230B-46FB-B177-617189149BB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FDAA538-230B-46FB-B177-617189149BB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FDAA538-230B-46FB-B177-617189149BB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FDAA538-230B-46FB-B177-617189149BB3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B7430CA7-AC85-4C18-8787-41A4B5E69DF0} = {21AD1D5F-296A-47E5-B253-C476D46A79CA}
+		{5FDAA538-230B-46FB-B177-617189149BB3} = {21AD1D5F-296A-47E5-B253-C476D46A79CA}
+	EndGlobalSection
+EndGlobal

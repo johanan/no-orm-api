@@ -1,0 +1,11 @@
+meta {
+  name: Toggle Todo
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:5026/todos/{{email}}/{{id}}/toggle
+  body: none
+  auth: none
+}

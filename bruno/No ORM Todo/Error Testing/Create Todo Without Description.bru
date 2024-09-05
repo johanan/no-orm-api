@@ -1,0 +1,20 @@
+meta {
+  name: Create Todo Without Description
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:5026/todos/{{email}}
+  body: json
+  auth: none
+}
+
+body:json {
+  { "description": "" }
+}
+
+script:post-response {
+  var id = res.body.id;
+  bru.setVar('id', id);
+}

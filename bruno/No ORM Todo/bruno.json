@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "No ORM Todo",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

@@ -1,0 +1,16 @@
+meta {
+  name: Get Todos
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:5026/todos/{{email}}
+  body: none
+  auth: none
+}
+
+script:post-response {
+  var id = res.body[0]?.id;
+  bru.setVar('id', id);
+}

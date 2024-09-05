@@ -1,0 +1,20 @@
+meta {
+  name: Create Todo
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:5026/todos/{{email}}
+  body: json
+  auth: none
+}
+
+body:json {
+  { "description": "A todo to put in the db" }
+}
+
+script:post-response {
+  var id = res.body.id;
+  bru.setVar('id', id);
+}
