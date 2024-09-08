@@ -112,11 +112,9 @@ module NoORM =
             p.Add("Completed", todo.Completed)
             p.Add("Created", todo.Created)
             p.Add("Email", todo.User.ToLowerInvariant())
-            let! _ = trx.Connection.ExecuteAsync("WITH user_cte AS (
-                    SELECT UserId FROM Users WHERE Email = @Email
-                )
+            let! _ = trx.Connection.ExecuteAsync("
                 INSERT INTO Todo (Id, Description, Completed, Created, LastModified, UserId)
-                VALUES (@Id, @Description, @Completed, @Created, @Created, (SELECT UserId FROM user_cte))", p, trx)
+                VALUES (@Id, @Description, @Completed, @Created, @Created, (SELECT UserId FROM Users WHERE Email = @Email))", p, trx)
             return ()
         }
         
@@ -153,6 +151,7 @@ module Program =
     open Utils
     let exitCode = 0
 
+    type public Startup = class end
     [<EntryPoint>]
     let main args =
         let builder = WebApplication.CreateBuilder(args)
