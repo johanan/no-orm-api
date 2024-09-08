@@ -55,7 +55,8 @@ type RepositoryTests() =
                 let! userId = trx.Connection.QueryFirstOrDefaultAsync<int>("SELECT UserId FROM Users WHERE Email = @Email", {| Email = newUserTodo.User |})
                 let! todoUserId = trx.Connection.QueryFirstOrDefaultAsync<int>("SELECT UserId FROM Todo WHERE Id = @Id", {| Id = newUserTodo.Id |})
                 Assert.Equal(2, count)
-                Assert.Equal(2, Seq.head todoCount)
+                // include seeded todo
+                Assert.Equal(3, Seq.head todoCount)
                 Assert.Equal(userId, todoUserId)
             }
         )
@@ -77,10 +78,12 @@ type RepositoryTests() =
                     do! insertTodo todo trx
                 
                 let! todoCount = trx.Connection.QueryFirstOrDefaultAsync<int>("SELECT COUNT(*) FROM Todo")
-                Assert.Equal(5, todoCount)
+                // include seeded todo
+                Assert.Equal(6, todoCount)
                 
                 let! existingUserTodos = getTodos "existing.user@test.com" trx.Connection
-                Assert.Equal(2, Seq.length existingUserTodos)
+                // same here
+                Assert.Equal(3, Seq.length existingUserTodos)
                 
                 let! newUserTodos = getTodos "new.user@test.com" trx.Connection
                 Assert.Single(newUserTodos) |> ignore
@@ -92,5 +95,24 @@ type RepositoryTests() =
                 // should not find the todo
                 let! todo = getTodo "new.user@test.com" firstId trx.Connection
                 Assert.Null(todo)
+            }
+        )
+    
+    [<Fact>]
+    member _.``Ensure updateTodo updates the todo as expected`` () =
+        
+        Factory.UseTrx factory (fun trx ->
+            task {
+                let now = DateTimeOffset.UtcNow
+                let todo = { Id = Guid.NewGuid(); Description = "Test"; Completed = false; Created = now; User = "existing.user@test.com" }
+                do! insertTodo todo trx
+                let updated = { todo with Description = "Updated"; Completed = true }
+                do! updateTodo updated trx.Connection
+                let! result = trx.Connection.QueryFirstOrDefaultAsync<Todo>("SELECT * FROM Todo WHERE Id = @Id", {| Id = todo.Id |})
+                let! modifiedGreater = trx.Connection.QueryFirstOrDefaultAsync<int>("SELECT COUNT(*) FROM Todo WHERE LastModified > Created")
+                Assert.Equal(updated.Description, result.Description)
+                Assert.True(result.Completed)
+                Assert.Equal(1, modifiedGreater)
+                return ()
             }
         )

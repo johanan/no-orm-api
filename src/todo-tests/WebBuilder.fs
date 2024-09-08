@@ -1,7 +1,8 @@
 namespace todo_tests
 
-open System
 open System.Collections.Generic
+open System.Text.Json
+open System.Threading.Tasks
 open Microsoft.AspNetCore.Mvc.Testing
 open Microsoft.Extensions.Configuration
 open Microsoft.Extensions.DependencyInjection
@@ -42,3 +43,23 @@ type Factory () =
         use scope = factory.Services.CreateScope()
         let ds = scope.ServiceProvider.GetService<NpgsqlDataSource>()
         runTrx ds query
+        
+module Utils =
+    let jsonOptions = JsonSerializerOptions(JsonSerializerDefaults.Web)
+    let AssertStatusCode expected (respTask: Task<System.Net.Http.HttpResponseMessage>) =
+        task {
+            let! response = respTask
+            let! _ = response.Content.ReadAsStringAsync ()
+            let actual = response.StatusCode
+            Assert.Equal(expected, actual)
+            return response
+        }
+        
+    let AssertOk (response: Task<System.Net.Http.HttpResponseMessage>) = AssertStatusCode System.Net.HttpStatusCode.OK response
+    
+    let Deserialize<'a> (respTask: Task<System.Net.Http.HttpResponseMessage>) =
+        task {
+            let! response = respTask
+            let! content = response.Content.ReadAsStringAsync ()
+            return System.Text.Json.JsonSerializer.Deserialize<'a>(content, jsonOptions)
+        }

@@ -91,7 +91,7 @@ module NoORM =
             p.Add("Id", todo.Id)
             p.Add("Description", todo.Description)
             p.Add("Completed", todo.Completed)
-            p.Add("LastModified", DateTimeOffset.UtcNow)
+            p.Add("LastModified", DateTimeOffset.UtcNow, DbType.DateTimeOffset)
             let! _ = db.ExecuteAsync("UPDATE Todo SET Description = @Description, Completed = @Completed, LastModified = @LastModified WHERE Id = @Id", p)
             return ()
         }

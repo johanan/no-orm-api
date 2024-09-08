@@ -13,6 +13,8 @@
     <Compile Include="DbSeed.fs" />
     <Compile Include="WebBuilder.fs" />
     <Compile Include="RepositoryTests.fs" />
+    <Compile Include="BusinessRulesTests.fs" />
+    <Compile Include="ApiTests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
